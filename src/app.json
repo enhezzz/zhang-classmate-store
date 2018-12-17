@@ -1,0 +1,30 @@
+{
+  "pages": [
+    "pages/index/main",
+    "pages/logs/main",
+    "pages/counter/main",
+    "pages/classification/main",
+    "pages/prodDetail/main"
+  ],
+  "window": {
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#CC6666",
+    "navigationBarTitleText": "张同学的店小二",
+    "navigationBarTextStyle": "black",
+    "enablePullDownRefresh": true,
+    "backgroundColor": "#c5c5c5"
+  },
+  "tabBar": {
+    "list": [
+      {
+      "pagePath": "pages/index/main",
+      "text": "首页"
+    },
+      {
+        "pagePath": "pages/classification/main",
+        "text": "分类"
+      }
+    ]
+  },
+  "debug": true
+}
