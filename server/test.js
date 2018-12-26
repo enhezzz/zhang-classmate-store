@@ -157,6 +157,123 @@ app.get('/prodDetail',(req,res)=> {
   })
 })
 
+//  分類
+app.get('/classification',(req, res) => {
+  const c = req.query.condition?req.query.condition: null
+  const request = https.get({
+    hostname: 'shop240461004.taobao.com',
+    path: `/i/asynSearch.htm?_ksTS=1545143316765_150&callback=jsonp151&mid=w-17579319719-0&wid=17579319719&path=/search.htm&search=y&spm=a1z10.1-c.w5002-17579319697.1.1f0c9adccRPvwC&pv=${c?c: ''}`,
+    headers: {
+      referer: 'https://shop240461004.taobao.com/search.htm?spm=a1z10.1-c.w5002-17579319697.1.1f0c9adccRPvwC&search=y',
+      cookie: 't=11dcae029c6e5d70a66531ba79374385; thw=cn; cna=j+kTFP3rXRkCAW8qpnsWydZh; miid=176923261510481232; tg=0; x=e%3D1%26p%3D*%26s%3D0%26c%3D0%26f%3D0%26g%3D0%26t%3D0%26__ll%3D-1%26_ato%3D0; hng=CN%7Czh-CN%7CCNY%7C156; enc=oJXtGu%2BZwEKi%2FqNmxAyGWCyrT67YnZ2uY1lh9IwgApJ7ya9pNQMsK7rLT0wxEK2zRGfziDA1cyOpuT00QzcMwQ%3D%3D; _m_h5_tk=a13f5d212ae44bc95824991d0fd04802_1545148862004; _m_h5_tk_enc=3a078e4275246e33a17045b42e4ec2d1; _cc_=Vq8l%2BKCLiw%3D%3D; cookie2=13ba379f3caf9484e7d0a770c23f8f24; _tb_token_=75ae4e7b67539; mt=ci=0_0; v=0; pnm_cku822=098%23E1hvipvUvbpvUpCkvvvvvjiPR25O0jlEPLzwtjD2PmPWzjDURF5vsjDEP2S9tjDCRFyCvvpvvvvv2QhvCvvvvvvEvpCWmmjlvvahSXVxCLIZEcqwa4oQ%2Bul1bPLOlEkAdcUS%2BExrA8TJEcqWa4AxdX9aWXxrgj7J%2B3%2BiafmxfBeKNB3rgj7Q%2BulgENoxfwkKHuyCvv9vvUmsIhc0LUyCvvOUvvVvayTtvpvIvvvvvhCvvP9vvUUWphvhwvvv9krvpvQvvvmm2hCv2vvvvUUWphvWvvhCvvOvUvvvphm5vpvhvvmv99%3D%3D; l=aBt61IUZyHrlCyEB9MailX_sg707y85zDl7O1MamwTEhNPeHzDjmgjno-VwW2_qC5Jcy_K-5v; isg=BJKSSHqnGg0HeGHBJqj-JNWi41i0C5ZUDbyABVzrvsUwbzJpRDPmTZiJ24t2G'
+    }
+  })
+  request.on('response',(incommingMsg) => {
+    const buffers = []
+    incommingMsg.on('data', (chunk) => {
+      buffers.push(chunk)
+    })
+    incommingMsg.on('end', () => {
+      // const Console = new console.Console(fs.createWriteStream(path.join(__dirname,'./classification.html')))
+      // Console.log(`<div class="container">${decodeURIComponent(iconv.decode(Buffer.concat(buffers),'gb2312')
+      //   .match(/<[a-z].*[a-z]>/)[0]
+      //   .replace(/\\/g,''))}</div>`)
+      const $ = cheerio.load(`<div class="container">${decodeURIComponent(iconv.decode(Buffer.concat(buffers),'gb2312')
+        .match(/<[a-z].*[a-z]>/)[0]
+        .replace(/\\/g,''))}</div>`)
+      const obj = {}
+      const condition  = []
+      const shoeSize = Array.from($('.container th:contains("鞋码")').next().find('a')).map(item => {
+        return {
+          href: $(item).attr('href').match(/(?<=pv=).*/)[0],
+          title: $(item).text()
+        }
+      })
+      // console.log(Array.from($('.container th:contains("鞋码")').next().find('a')).map(item => $(item).text()))
+      if(shoeSize.length != 0)
+        condition.push({title: '鞋码', data: shoeSize})
+      const size = Array.from($('.container th:contains("尺码")').next().find('a')).map(item => {
+        return {
+          href: $(item).attr('href').match(/(?<=pv=).*/)[0],
+          title: $(item).text()
+        }
+      })
+      // console.log(Array.from($('.container th:contains("尺码")').next().find('a')).map(item => $(item).text()))
+      if(size.length != 0)
+        condition.push({title: '尺码',data: size})
+      const func = Array.from($('.container th:contains("功能")').next().find('a')).map(item => {
+        return {
+          href: $(item).attr('href').match(/(?<=pv=).*/)[0],
+          title: $(item).text()
+        }
+      })
+      // console.log(Array.from($('.container th:contains("功能")').next().find('a')).map(item => $(item).text()))
+      if(func.length != 0)
+        condition.push({title: '功能', data: func})
+      const location = Array.from($('.container th:contains("适用场地")').next().find('a')).map(item => {
+        return {
+          href: $(item).attr('href').match(/(?<=pv=).*/)[0],
+          title: $(item).text()
+        }
+      })
+      // console.log(Array.from($('.container th:contains("适用场地")').next().find('a')).map(item => $(item).text()))
+      if(location.length != 0)
+        condition.push({title: '适用场地', data: location})
+      const isFake = Array.from($('.container th:contains("是否瑕疵")').next().find('a')).map(item => {
+        return {
+          href: $(item).attr('href').match(/(?<=pv=).*/)[0],
+          title: $(item).text()
+        }
+      })
+      // console.log(Array.from($('.container th:contains("是否瑕疵")').next().find('a')).map(item => $(item).text()))
+      if(isFake.length != 0)
+        condition.push({title: '是否瑕疵', data: isFake})
+
+
+      obj.conditions = condition
+      //搜索結果
+      obj.searchResult = $('.container .search-result').text()
+      console.log($('.container .search-result').text())
+      //寶貝列表
+      obj.shoes = Array.from($('.container .item3line1>.item')).map(item => {
+        const id = $(item).attr('data-id')
+        const href = $(item).find('.photo>.J_TGoldData').attr('href')
+        const imgUrl = $(item).find('.photo img').attr('src')
+        const title = $(item).find('.detail>.J_TGoldData').text()
+        const totalSale = $(item).find('.detail .sale-area>.sale-num').text()
+        const price = $(item).find('.detail .cprice-area>.c-price').text()
+        return {
+          id,
+          href,
+          imgUrl,
+          title,
+          totalSale,
+          price
+        }
+      })
+      console.log(obj)
+      res.json(obj).end()
+      // console.log(Array.from($('.container .item3line1>.item')).map(item => {
+      //   const id = $(item).attr('data-id')
+      //   const href = $(item).find('.photo>.J_TGoldData').attr('href')
+      //   const imgUrl = $(item).find('.photo img').attr('src')
+      //   const title = $(item).find('.detail>.J_TGoldData').text()
+      //   const totalSale = $(item).find('.detail .sale-area>.sale-num').text()
+      //   const price = $(item).find('.detail .cprice-area>.c-price').text()
+      //   return {
+      //     id,
+      //     href,
+      //     imgUrl,
+      //     title,
+      //     totalSale,
+      //     price
+      //   }
+      // }))
+    })
+  })
+
+})
+
 app.listen(80,'localhost',()=> {
   console.log('listening 80 port...')
 })
