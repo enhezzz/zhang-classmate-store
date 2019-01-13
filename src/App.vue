@@ -29,4 +29,7 @@ export default {
   -o-transition: width 2s;
   box-sizing: border-box;
 }
+  .theme-color {
+    color: #CC6666;
+  }
 </style>

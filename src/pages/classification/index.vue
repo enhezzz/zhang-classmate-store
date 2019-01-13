@@ -1,23 +1,26 @@
 <template>
   <div class="container classification">
-    <div class="classification-theme expanded">
-      <div class="classification-theme-item">
-        人气
-      </div>
-      <div class="classification-theme-item">
-        功能
-      </div>
-      <div class="classification-theme-item">
-        适用场地
-      </div>
-    </div>
+    <!--<div class="classification-theme expanded">-->
+      <!--<div class="classification-theme-item">-->
+        <!--人气-->
+      <!--</div>-->
+      <!--<div class="classification-theme-item">-->
+        <!--功能-->
+      <!--</div>-->
+      <!--<div class="classification-theme-item">-->
+        <!--适用场地-->
+      <!--</div>-->
+    <!--</div>-->
     <div class="classification-items">
       <div class="header">
         <div class="title">
           所有宝贝:
-          <span>{{searchResult}}</span>
+          <span class="theme-color ">{{searchResult}}</span>
         </div>
-        <van-tag color="#ffe1e1" text-color="#ad0000">标签</van-tag>
+        <van-tag size="large" color="#ffe1e1" text-color="#ad0000"
+        v-for="item in selectedItems" :key="item.title">
+          <span :data-condition="item.href"  @click="selectedCondition">{{item.title}}</span>
+          </van-tag>
         <!--<div class="selected-condition" v-show="selectedItems.length != 0">-->
           <!--<div class="title">已选择:</div>-->
           <!--<div class="items">-->
@@ -63,76 +66,77 @@
   </div>
 </template>
 <script>
-export default {
-  data () {
-    return {
-      conditions: [],
-      searchResult: '',
-      shoes: [],
-      selectedItems: [],
-      more: [],
-      //  折叠面板
-      activeName: []
-    }
-  },
-  methods: {
-    toMore (index, length) {
-      console.log(index, length)
-      if (this.more[index].selected) {
-        this.more[index].selected = false
-        this.more[index].nowVal = 2
-      } else {
-        this.more[index].selected = true
-        this.more[index].nowVal = length
-      }
-    },
-    onChange (event) {
-      this.activeName = event.mp.detail
-    },
-    selectedCondition (e) {
-      console.log(e.target.dataset)
-      wx.request({
-        url: `http://localhost/classification?condition=${e.target.dataset.condition}`,
-        success: (res) => {
-          const data = res.data
-          console.log(data)
-          this.conditions = data.conditions
-          this.searchResult = data.searchResult
-          this.shoes = data.shoes
-        }
-      })
-    }
-  },
-  created () {
-    wx.request(
-      {
-        url: 'http://localhost/classification',
-        success: (res) => {
-          console.log(res)
-          const data = res.data
-          console.log(data)
-          this.conditions = data.conditions
-          this.searchResult = data.searchResult
-          this.shoes = data.shoes
-          console.log(data.conditions.map(() => {
-            return {
-              // originVal: 2,
-              nowVal: 2,
-              selected: false
-            }
-          }))
-          this.more = data.conditions.map(() => {
-            return {
-              // originVal: 2,
-              nowVal: 2,
-              selected: false
-            }
-          })
-        }
-      }
-    )
-  }
-}
+// export default {
+//   data () {
+//     return {
+//       conditions: [],
+//       searchResult: '',
+//       shoes: [],
+//       selectedItems: [],
+//       more: [],
+//       //  折叠面板
+//       activeName: []
+//     }
+//   },
+//   methods: {
+//     toMore (index, length) {
+//       console.log(index, length)
+//       if (this.more[index].selected) {
+//         this.more[index].selected = false
+//         this.more[index].nowVal = 2
+//       } else {
+//         this.more[index].selected = true
+//         this.more[index].nowVal = length
+//       }
+//     },
+//     onChange (event) {
+//       this.activeName = event.mp.detail
+//     },
+//     selectedCondition (e) {
+//       console.log(e.target.dataset)
+//       wx.request({
+//         url: `http://localhost/classification?condition=${e.target.dataset.condition}`,
+//         success: (res) => {
+//           const data = res.data
+//           console.log(data)
+//           this.conditions = data.conditions
+//           this.searchResult = data.searchResult
+//           this.shoes = data.shoes
+//           this.selectedItems = data.selectedConditions
+//         }
+//       })
+//     }
+//   },
+//   created () {
+//     wx.request(
+//       {
+//         url: 'http://localhost/classification',
+//         success: (res) => {
+//           console.log(res)
+//           const data = res.data
+//           console.log(data)
+//           this.conditions = data.conditions
+//           this.searchResult = data.searchResult
+//           this.shoes = data.shoes
+//           console.log(data.conditions.map(() => {
+//             return {
+//               // originVal: 2,
+//               nowVal: 2,
+//               selected: false
+//             }
+//           }))
+//           this.more = data.conditions.map(() => {
+//             return {
+//               // originVal: 2,
+//               nowVal: 2,
+//               selected: false
+//             }
+//           })
+//         }
+//       }
+//     )
+//   }
+// }
 </script>
 <style scoped>
   .classification {
@@ -155,7 +159,7 @@ export default {
   }
   .classification>.classification-items {
     /*position:fixed;*/
-    width:80%;
+    width:100%;
   }
   .classification>.classification-items>.header>.title {
     border-bottom: 1px solid #c5c5c5;
@@ -188,6 +192,6 @@ export default {
 </style>
 <style>
   .van-tag {
-    margin-right: 8px;
+    margin: 4px;
   }
 </style>

@@ -2,29 +2,41 @@
   "pages": [
     "pages/index/main",
     "pages/logs/main",
-    "pages/counter/main",
-    "pages/classification/main",
-    "pages/prodDetail/main"
+    "pages/prodDetail/main",
+    "pages/search/main",
+    "pages/about/main",
+    "pages/verify/main"
   ],
   "window": {
     "backgroundTextStyle": "dark",
     "navigationBarBackgroundColor": "#CC6666",
     "navigationBarTitleText": "张同学的店小二",
     "navigationBarTextStyle": "black",
-    "enablePullDownRefresh": true,
     "backgroundColor": "#c5c5c5"
   },
   "tabBar": {
     "list": [
       {
-      "pagePath": "pages/index/main",
-      "text": "首页"
+        "pagePath": "pages/index/main",
+        "text": "宝贝推荐",
+        "iconPath": "/static/icon/Sport-Shoe.png",
+        "selectedIconPath": "/static/icon/Sport-Shoe-s.png"
     },
       {
-        "pagePath": "pages/classification/main",
-        "text": "分类"
+        "pagePath": "pages/search/main",
+        "text": "搜索",
+        "iconPath": "/static/icon/search.png",
+        "selectedIconPath": "/static/icon/search-s.png"
+      },
+      {
+        "pagePath": "pages/about/main",
+        "text": "关于",
+        "iconPath": "/static/icon/about.png",
+        "selectedIconPath": "/static/icon/about-s.png"
       }
-    ]
+    ],
+    "backgroundColor": "#CC6666",
+    "selectedColor": "#FFDFF7"
   },
   "debug": true
 }

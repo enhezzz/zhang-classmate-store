@@ -11,7 +11,7 @@
 	"miniprogramRoot": "dist/wx/",
 	"compileType": "miniprogram",
 	"appid": "wx873ea751d7d5f632",
-	"projectname": "my-project",
+	"projectname": "zhang%20store",
 	"condition": {
 		"search": {
 			"current": -1,

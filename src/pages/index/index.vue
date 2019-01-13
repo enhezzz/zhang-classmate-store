@@ -12,11 +12,12 @@
       :price="prod.price"
       desc="点击查看详细信息"
       :title="prod.title"
-      :thumb="prod.imgUrl"
+      :thumb="'https:'+prod.imgUrl"
       v-for="(prod,index) in prods"
       :key="prod.id"
       :thumb-link="'/pages/prodDetail/main?id='+prod.id"
     />
+    <!--<van-loading color="#fff" v-if="loading" class="loading" size="50px"/>-->
   </div>
 </template>
 
@@ -36,15 +37,25 @@ export default {
         '6.jpg',
         '7.jpg',
         '8.jpg'
-      ]
+      ],
+      loading: true
     }
   },
   created () {
+    wx.showLoading({
+      title: '我来啦！~',
+    })
+    wx.setBackgroundColor({
+      backgroundColorTop: '#ffffff', // 顶部窗口的背景色为白色
+      backgroundColorBottom: '#5588dd', // 底部窗口的背景色为白色
+    })
     wx.request({
       url: 'http://localhost/init',
       success: (res) => {
         console.log(res)
         console.log(this)
+        this.loading = false
+        wx.hideLoading()
         this.prods.push(...res.data)
       }
     })
@@ -94,5 +105,13 @@ export default {
   image {
     width: 100%;
     height: 100%;
+  }
+  .loading {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    z-index: 1000;
+    transform: translate3d(-50%,-50%,0);
+    background: rgba(160,66,66,.6);
   }
 </style>

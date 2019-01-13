@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <div id="nocaptcha"></div>
+</body>
+<script src="./verify.js"></script>
+<script>
+
+  var scene = "register";
+  (function ncinitpc() {
+    UA_Opt.Flag = 880846;
+    document.getElementById("nocaptcha").style.cssText = "margin-top:-10px";
+    noCaptcha({
+      renderTo: "#nocaptcha",
+      appkey: "X82Y",
+      token: "019a221a47c2dc5b1dd60060cd051813",  //  用来控制每次生成的csessionid、sig值不同
+      scene: scene,
+      is_Opt: 1,
+      callback: function (data) {
+        console.log(data)
+        // document.getElementById("nc-session-id").value = data.csessionid;
+        // document.getElementById("nc-sig").value = data.sig;
+        // document.getElementById("nc-verify-form").submit();
+      }
+    });
+  })();
+</script>
+</html>

@@ -1,14 +1,15 @@
 <template>
   <div class="container">
     <h3 class="shoe-name">{{title}}</h3>
+    <div id="nocaptcha"></div>
     <div class="gallery">
       <div class="big-img">
-        <image :src="mainUrl"></image>
+        <image :src="'https:'+mainUrl"></image>
       </div>
       <div class="small-img">
         <div :class="{selected: img.selected}" class="item btn" v-for="img in imgUrls" :key="img.index"
          >
-          <image :src="img.url" @click="selectImg" :data-index="img.index" :data-url="img.url"></image>
+          <image :src="'https:'+img.url" @click="selectImg" :data-index="img.index" :data-url="img.url"></image>
         </div>
       </div>
     </div>
@@ -39,7 +40,7 @@
         <span class="title discount-title">优惠</span>
         <div class="desc discount-desc">
           <div class="discount-desc-activity" v-for="coupon in couponActivity" :key="coupon.activityId">
-            <image :src="coupon.icon[0]"></image>
+            <image :src="'https:'+coupon.icon[0]"></image>
             <span>{{coupon.title}}</span>
           </div>
           <div class="discount-desc-activity"></div>
@@ -67,14 +68,14 @@
         <span class="title">数量</span>
         <div class="desc stock-desc">
           <!--<van-stepper :value="buyNumber" :change="onChange" />-->
-          <span>(库存{{totalStock}}件)</span>
+          <span>(库存<span style="color: #f40">{{totalStock}}</span>件)</span>
         </div>
       </div>
       <div class="item commitment">
         <span class="title commitment-title">承诺</span>
         <div class="desc commitment-desc">
           <div class="commitment-desc-item" v-for="(item, index) in tradeContract.service" :key="item.desc">
-            <image :src="item.icons[0]"></image>
+            <image :src="'https:'+item.icons[0]"></image>
             <span>{{item.title}}</span>
           </div>
         </div>
@@ -83,7 +84,7 @@
         <div class="title pay-title">支付</div>
         <div class="desc pay-desc">
           <div class="pay-desc-item" v-for="(item, index) in tradeContract.pay" :key="item.url">
-            <image :src="item.icons[0]"></image>
+            <image :src="'https:'+item.icons[0]"></image>
             <span>{{item.title}}</span>
           </div>
         </div>
@@ -172,31 +173,41 @@ export default {
     }
   },
   onLoad () {
+    wx.showLoading({
+      title: '马不停蹄的加载~',
+    })
     wx.request({
       url: `http://localhost/prodDetail?id=${this.$root.$mp.query.id}`,
       success: (res) => {
-        console.log(res)
-        const data = res.data
-        this.couponActivity = data.couponActivity
-        this.price = data.price
-        //  初始化所有鞋码选择为未选择
-        this.property = data.property.map(item => {
-          return {...item, selected: false}
-        })
-        this.qrcodeImgUrl = data.qrcodeImgUrl
-        this.soldQuantity = data.soldQuantity
-        this.totalStock = data.totalStock
-        this.tradeContract = data.tradeContract
-        this.title = data.title
-        //  初始化所有颜色选择为未选择
-        this.colors = data.colors.map((color, index) => {
-          return {color, index, selected: false}
-        })
-        //  初始化所有缩略图为未选择
-        this.imgUrls = data.imgUrls.map((url, index) => {
-          return {url, index, selected: false}
-        })
-        this.mainUrl = data.imgUrls[0].replace(/\d+x\d+/, '400x400')
+        let resCode = res.statusCode;
+        if(resCode == 403){
+          wx.showLoading({
+            title: 'boom~,请联系一下管理员那个家伙',
+          })
+        }else {
+          const data = res.data
+          this.couponActivity = data.couponActivity
+          this.price = data.price
+          //  初始化所有鞋码选择为未选择
+          this.property = data.property.map(item => {
+            return { ...item, selected: false }
+          })
+          this.qrcodeImgUrl = data.qrcodeImgUrl
+          this.soldQuantity = data.soldQuantity
+          this.totalStock = data.totalStock
+          this.tradeContract = data.tradeContract
+          this.title = data.title
+          //  初始化所有颜色选择为未选择
+          this.colors = data.colors.map((color, index) => {
+            return { color, index, selected: false }
+          })
+          //  初始化所有缩略图为未选择
+          this.imgUrls = data.imgUrls.map((url, index) => {
+            return { url, index, selected: false }
+          })
+          this.mainUrl = data.imgUrls[0].replace(/\d+x\d+/, '400x400')
+          wx.hideLoading()
+        }
       }
     })
     console.log(this.$root.$mp.query)

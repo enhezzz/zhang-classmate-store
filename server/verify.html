@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>喝口茶</title>
+</head>
+<body>
+  <div id="nocaptcha"></div>
+</body>
+<script src="http://localhost/verify.js"></script>
+<script>
+  var scene = "register";
+  (function ncinitpc() {
+        UA_Opt.Flag = 880846;
+        document.getElementById("nocaptcha").style.cssText = "margin-top:-10px";
+        noCaptcha({
+            renderTo: "#nocaptcha",
+            appkey: "X82Y",
+            token: "4ae342bdf5aa49b8679ab9081bf8a054",
+            scene: scene,
+            is_Opt: 1,
+            
+    callback: function (data) {
+    console.log(data)
+    var xhr = new XMLHttpRequest();
+    var  method = "POST", url = "http://localhost/verify";
+      xhr.open(method, url, true);
+      xhr.setRequestHeader('Content-Type', 'application/json')
+      xhr.onreadystatechange = function () {
+        if(xhr.readyState === 4 && xhr.status === 200) {
+          alert('更新成功');
+        }else {
+          alert('出错了')
+        }
+      };
+      xhr.send(JSON.stringify(data));
+      }
+    });
+  })();
+</script>
+
+</html>

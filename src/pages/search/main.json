@@ -2,6 +2,6 @@
   "usingComponents": {
     "van-button": "/static/vant/button/index",
     "van-card": "/static/vant/card/index",
-    "van-loading": "/static/vant/loading/index"
+    "van-toast": "/static/vant/toast/index"
   }
 }
