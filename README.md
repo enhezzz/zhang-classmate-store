@@ -1,21 +1,26 @@
-# my-project
+### 基于mpvue的淘宝商铺关联小程序
 
-> A Mpvue project
+//  这里主要讲第三方库的引用和服务器端数据获取设置
 
-## Build Setup
+> 第三方库引用
 
-``` bash
-# install dependencies
-npm install
+  我这里用的是有赞的vant小程序组件，先通过npm安装好，我相信这个百度能解决了吧。
+然后把vant的dist目录下的文件移动到根目录的static文件下（详细可看本项目目录），然后在组件对应的json文件中引用即可。
 
-# serve with hot reload at localhost:8080
-npm run dev
+> server
 
-# build for production with minification
-npm run build
+工具
+1.  express(node框架)
+2.  cheerio(爬虫,类似jquery解析xml)
 
-# build for production and view the bundle analyzer report
-npm run build --report
-```
 
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+我这里还是想主要讲讲怎么突破淘宝的刷新限制。由于店铺的数据需要通过登陆才能获取到真实数据，所以先登陆然后在dugger中拿到
+会话信息，然后通过url、cookie和伪造refer来获取店铺真实数据。
+
+关键的地方来了，淘宝设置的刷新限制，此时需要滑动验证码来刷新会话信息（其实就是重设cookie值），
+在这里我就通过网页关键字找到异步请求url，然后后台获取数据后填充到自己的写的模板引擎中实现自己的简洁刷新页面(好吧，用的是正则)。
+可无奈，由于生成的是网页，要作为web-view嵌入小程序里面需要设置业务域名，我后台用到了淘宝的url，
+难道我还能把小程序的检验文件发到淘宝服务器里来使业务域名生效？？？显然是不能的，所以只好作罢...
+
+所以这个程序是有bug的，当你玩命刷新的时候它就挂了，所以最后我也没上线了，是个遗憾（当然了，拿去做h5是一点问题都没有的，就是在
+需要验证的时候多出一个验证滑块，用于刷新状态的）

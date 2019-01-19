@@ -41,7 +41,7 @@ app.get('/init',(req,res)=> {
 })
 
 //商品详情页
-let x5secdata = '7b2264657461696c736b69703b32223a226365393732353232646432626234643631396131633530363734636236663861434e437235754546454d695a3849626a3664657243773d3d227d',
+let x5secdata = '7b2264657461696c736b69703b32223a22636539373235323264643262623464363139613163353036373463623666386',
     originX5secdata = '';
 app.get('/prodDetail',(req,res)=> {
   console.log(req.query);
@@ -368,7 +368,7 @@ app.get('/search',(req, res)=> {
     path: `/i/asynSearch.htm?_ksTS=1546868999847_150&callback=jsonp151&mid=w-17579319719-0&wid=17579319719&path=/search.htm&search=y&q=${keyword}&searcy_type=item&s_from=newHeader&source=null&ssid=s5-e&spm=a1z10.1.1996643285.d4916905&initiative_id=shopz_20190107`,
     headers: {
       referer: 'https://shop240461004.taobao.com/search.htm?q=air&searcy_type=item&s_from=newHeader&source=&ssid=s5-e&search=y&spm=a1z10.1.1996643285.d4916905&initiative_id=shopz_20190107',
-      cookie: 'thw=cn; cna=O6urFGdMWkcCARuaG+PoAa30; t=06011b4cd422d9cccd7dd759550244e4; x=e%3D1%26p%3D*%26s%3D0%26c%3D0%26f%3D0%26g%3D0%26t%3D0%26__ll%3D-1%26_ato%3D0; enc=wSpLbWsGHtjU57FVNd2Ei1OdGuahOItD40zp4xKMS8uMgYSPKZY7%2BBpFbcq1rhjzqq4IbQZVvxZHQ1Mn6JhCYQ%3D%3D; hng=CN%7Czh-CN%7CCNY%7C156; uc3=vt3=F8dByRIqrdPxabW0i70%3D&id2=UUphyu%2BHvM6emtnyjg%3D%3D&nk2=CseRdKpRcw%3D%3D&lg2=V32FPkk%2Fw0dUvg%3D%3D; tracknick=iamhugs; lgc=iamhugs; _cc_=V32FPkk%2Fhw%3D%3D; tg=5; mt=ci=0_1; miid=339653452096650142; cookie2=19cf89249654eb68fc004d4d0c01d5f4; v=0; _tb_token_=e33f083e70dab; swfstore=23355; uc1=cookie14=UoTYMbyVzpC2yQ%3D%3D; pnm_cku822=098%23E1hv99vUvbpvUvCkvvvvvjiPR2SWzji8Rs59ljrCPmPysjiRRLcU0jr8RLMOAjtURphvCvvvvvvPvpvhvv2MMqyCvm9vvvvvphvv%2Fvvv9a3vpvkDvvmm86Cv2vvvvUUWphvWvvvv991vpvQvkphvC99vvOCzBuyCvv9vvUv6CIX5bvyCvhQv7kyvCAMB%2Bb0ySfyzcrVnI4mzD2rO3w0x9C9aWDNBlwethbUfbjc6D76OdeQEfwClYb8raAuQD7zWdigDN%2BCl%2BE7rVC69fc7QD40fvphvC9vhvvCvp8wCvvpvvUmm; l=aB75_cd0yixpAKzK9Ma7iX7zB707y8ZPwXfM1MakrTEhNPeS7RXy1jno-VwWj_qC5Tcy_K-5F; isg=BIWF8SZPdT_x41F8Sqb17dNWlMF_6jm-ixP4v4fqQbzLHqWQT5JJpBPwLAJNXlGM'
+      cookie: 'thw=cn; cna=O6urFGdMWkcCARuaG+PoAa30; t=06011b4cd4adsadadsadsadasd22d9cccd7dd7595502'
     }
   })
   request.on('response',(incommingMsg)=> {
