@@ -23,6 +23,7 @@
 
 <script>
 // import card from '@/components/card'
+import request from '../../request'
 export default {
   data () {
     return {
@@ -50,7 +51,7 @@ export default {
       backgroundColorBottom: '#5588dd', // 底部窗口的背景色为白色
     })
     wx.request({
-      url: 'http://localhost/init',
+      url: `${request.domain}/init`,
       success: (res) => {
         console.log(res)
         console.log(this)

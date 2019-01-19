@@ -75,7 +75,7 @@
         <span class="title commitment-title">承诺</span>
         <div class="desc commitment-desc">
           <div class="commitment-desc-item" v-for="(item, index) in tradeContract.service" :key="item.desc">
-            <image :src="'https:'+item.icons[0]"></image>
+            <image :src="index==0?item.icons[0]:'https:'+item.icons[0]"></image>
             <span>{{item.title}}</span>
           </div>
         </div>
@@ -121,6 +121,7 @@
   </div>
 </template>
 <script>
+import request from '../../request'
 export default {
   data () {
     return {
@@ -141,7 +142,7 @@ export default {
       title: '',
       colors: [],
       imgUrls: [{url: '', index: 0, selected: false}],
-      mainUrl: ''
+      mainUrl: '//enhezzz.com/assets/img/404.jpg'
     }
   },
   computed: {
@@ -177,7 +178,7 @@ export default {
       title: '马不停蹄的加载~',
     })
     wx.request({
-      url: `http://localhost/prodDetail?id=${this.$root.$mp.query.id}`,
+      url: `${request.domain}/prodDetail?id=${this.$root.$mp.query.id}`,
       success: (res) => {
         let resCode = res.statusCode;
         if(resCode == 403){
